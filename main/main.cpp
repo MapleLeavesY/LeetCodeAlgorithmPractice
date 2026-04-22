@@ -2,7 +2,31 @@
 #include <vector>
 #include <array>
 #include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+#include <cstdlib>
 using namespace std;
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) 
+    {
+        unordered_map<int, int> mp;
+        int other;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            other = target - nums[i];
+            if(mp.count(other))
+            {
+                return{ mp[other], i};
+            }
+            mp[nums[i]] = i;
+        }
+        return{};
+    }
+};
+
+
 struct ListNode 
 {
     int val;
@@ -55,6 +79,95 @@ public:
             maxResult = max(maxResult, (right - left) + 1);
         }
         return maxResult;
+    }
+};
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs)
+    {
+        unordered_map<string, vector<string>> mp;
+        for(const string& str : strs)
+        {
+            string key =  str;
+            sort(key.begin(), key.end());
+            mp[key].push_back(str);
+        }
+        vector<vector<string>> result;
+        for(auto& pair : mp)
+        {
+            result.push_back(pair.second);
+        } 
+        return result;
+
+    }
+};
+
+class Solution
+{
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs)
+    {
+        unordered_map<string, vector<string>> mp;
+        vector<vector<string>> result;
+        for(string str : strs)
+        {
+            int count[26] = { 0 };
+            for(char c : str)
+            {
+                count[c - 'a'] += 1;
+            }
+
+            string key;
+            for(int i = 0; i < 26; i++)
+            {
+                key += to_string(count[i]) + '#';
+            }
+
+            mp[key].push_back(str);
+        }
+        for(auto& pair : mp)
+            result.push_back(pair.second);
+        return result;
+    }
+};
+class Solution 
+{
+public:
+    void moveZeroes(vector<int>& nums) 
+    {
+        int left = 0;
+        for(int right = 0; right< nums.size(); right++)
+        {
+            if(nums[right] != 0)
+            {
+                swap(nums[left], nums[right]);
+                left++;
+            }
+        }
+    }
+};
+class Solution 
+{
+public:
+    int maxArea(vector<int>& height) 
+    {
+        int l = 0;
+        int h = 0;
+        int result = 0;
+        int left = 0;
+        int right = height.size() - 1;
+        while(left < right)
+        {
+            l = right - left;
+            h = min(height[left], height[right]);
+            result = max(result, (l * h));
+            if(height[left] < height[right])
+                left++;
+            else
+                right--;
+        }
+        return result;
     }
 };
 
