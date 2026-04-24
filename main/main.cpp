@@ -171,6 +171,81 @@ public:
     }
 };
 
+
+class Solution 
+{
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) 
+    {
+        vector<vector<int>> result;
+        sort(nums.begin(), nums.end());
+        int right, left, sum;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(nums[i] > 0) break;
+            if(i > 0 && (nums[i] == nums[i - 1])) continue;
+
+            left = i + 1;
+            right = nums.size() - 1;
+            while(left < right)
+            {
+                sum = nums[left] +nums[i] + nums[right];
+                if(sum < 0)
+                {
+                    left++;
+                }
+                else if(sum > 0)
+                {
+                    right--;
+                }
+                else
+                {//sum = 0
+                    result.push_back({ nums[left], nums[i], nums[right] });
+                    while(left < right && nums[left] == nums[left + 1]) left++;
+                    while(left < right && nums[right] == nums[right - 1]) right--;
+
+                    left++;
+                    right--;
+                }
+            }
+
+        }
+        return result;
+    }    
+};
+
+
+
+class Solution 
+{
+public:
+    int trap(vector<int>& height) 
+    {
+        int left = 0, left_Max = 0;
+        int right = height.size() - 1, right_Max = 0;
+        int result = 0;
+        while(left < right)
+        {
+            if(height[left] < height[right])
+            {
+                left_Max = max(left_Max, height[left]);
+                result += left_Max - height[left];
+                left++;
+            }
+            else//height[left] >= height[right];
+            {
+                right_Max = max(right_Max, height[right]);
+                result += right_Max - height[right];
+                right--;
+            }
+        }
+        return result;
+    }
+};
+
+
+
+
 int main()
 {
 
