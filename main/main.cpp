@@ -62,25 +62,6 @@ public:
     }
 };
 
-class Solution {
-public:
-    int lengthOfLongestSubstring(string s)
-    {   
-        unordered_map<char,int> map;
-        int left = 0, maxResult = 0;
-        for(int right = 0; right < s.size(); right++)
-        {
-            char temp = s[right];
-            if(map.count(temp) && map[temp] >= left)
-            {//在表中发现了temp值
-                left = map[temp] + 1;
-            }
-            map[temp] = right;
-            maxResult = max(maxResult, (right - left) + 1);
-        }
-        return maxResult;
-    }
-};
 
 class Solution {
 public:
@@ -243,12 +224,67 @@ public:
     }
 };
 
+#pragma region 无重复字符最长字串
+class Solution 
+{
+public:
+    int lengthOfLongestSubstring(string s) 
+    {
+        unordered_map<char, int> mp;
+        int left = 0;
+        int result = 0;
+        for(int right = 0; right < s.size(); right++)
+        {
+            if(mp.count(s[right]) && mp[s[right]] >= left)
+            {//找到相同字符
+                left = mp[s[right]] + 1;
+            }
+            mp[s[right]] = right;
+            result = max(result, right - left + 1);
+        }
+        return result;
+    }
+};
+#pragma endregion
+
+#pragma region 找到字符串中所有字母异位词
+class Solution 
+{
+public:
+    vector<int> findAnagrams(string s, string p) 
+    {
+        if(p.size() > s.size()) return{};
+        vector<int> s_str(26,0);
+        vector<int> p_str(26,0);
+        vector<int> result;
+        int left = 0;
+        for(char c : p)
+        {
+            p_str[c - 'a']++;
+        }
+        for(int right = 0; right < s.size(); right++)
+        {
+            s_str[s[right] - 'a']++;
+
+            if(right - left + 1 > p.size())
+            {
+                s_str[s[left] - 'a']--;
+                left++;
+            }
+            if(s_str == p_str)
+            {
+                result.push_back(left);
+            }
+        }
+        return result;
+    }
+};
+#pragma endregion
 
 
 
 int main()
 {
-
 
     cin.get();
 }
