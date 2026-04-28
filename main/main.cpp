@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <algorithm>
 #include <cstdlib>
+#include <deque>
 using namespace std;
 
 class Solution {
@@ -280,8 +281,107 @@ public:
     }
 };
 #pragma endregion
+#pragma region 和为K的子数组 560
 
+class Solution 
+{
+public:
+    int subarraySum(vector<int>& nums, int k) 
+    {
+        unordered_map<int, int> mp;
+        int sum = 0;
+        int result = 0;
+        mp[0] += 1;
+        for(int num : nums)
+        {
+            sum += num;
+            if(mp.count(sum - k))
+            {
+                result += mp[sum - k];
+            }
+            mp[sum]++;
+        }
+        return result;
+    }
+};
 
+#pragma endregion
+#pragma region 滑动窗口K最大值 239
+
+class Solution 
+{
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) 
+    {
+        vector<int> result;
+        if(nums.size() == 0) return result;
+
+        int max_Count = INT_MIN;
+        if(nums.size() <= k)
+        {
+            for(int value : nums)
+            {
+                max_Count = max(max_Count, value);
+            }
+            result.push_back(max_Count);
+            return result;
+        }
+        else 
+        {
+            for(int right = 0; right < nums.size(); right++)
+            {
+                if(right < k)
+                {
+                    max_Count = max(max_Count, nums[right]);
+
+                    if(right == k - 1)
+                    {
+                        result.push_back(max_Count);
+                    }
+                    continue;
+                }
+                if(nums[right - k] == max_Count && right >= k)
+                {
+                    max_Count = nums[right - k + 1];
+                    for(int j = right - k + 1; j < right + 1; j++)
+                    {
+                        max_Count = max(max_Count, nums[j]);
+                    }
+                }
+                else
+                {
+                    max_Count = max(max_Count, nums[right]);
+                }
+                result.push_back(max_Count); 
+            }
+        }
+        return result;
+    }
+};
+
+class Solution 
+{
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) 
+    {
+        deque<int> dq;
+        vector<int> result;
+        for(int i =  0; i < nums.size(); i++)
+        {
+            if(!dq.empty() && dq.front() == i - k)
+                dq.pop_front();
+            while(!dq.empty() && nums[dq.back()] < nums[i])
+                dq.pop_back();
+            dq.push_back(i);
+
+            if(i >= k - 1)
+            result.push_back(nums[dq.front()]);
+        }
+        return result;
+    }
+};
+
+#pragma endregion
 
 int main()
 {
