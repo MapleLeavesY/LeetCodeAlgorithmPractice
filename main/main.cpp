@@ -397,6 +397,8 @@ public:
     string minWindow(string s, string t) 
     {
         
+
+        unordered_map<char, int> need, window;
     }
 };
 #pragma endregion
