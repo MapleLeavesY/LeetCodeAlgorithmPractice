@@ -3,6 +3,7 @@
 #include <vector>
 #include <unordered_map>
 using namespace std;
+#pragma region 最大子数组和
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) 
@@ -17,3 +18,4 @@ public:
         return result;
     }
 };
+#pragma endregion

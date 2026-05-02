@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <algorithm>
 using namespace std;
-
+#pragma region 合并区间
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) 
@@ -31,3 +31,4 @@ public:
         return result;
     }
 };
+#pragma endregion
