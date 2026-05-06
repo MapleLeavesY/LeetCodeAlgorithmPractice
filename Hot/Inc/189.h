@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-
+#include <algorithm>
 using namespace std;
 #pragma region 轮转数组
 class Solution 
@@ -20,6 +20,18 @@ public:
         {
             nums[j] = result[j];
         }
+    }
+};
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) 
+    {
+        int n = nums.size();
+        k %= n;
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin() + k);
+        reverse(nums.begin() + k, nums.end());
     }
 };
 #pragma endregion
