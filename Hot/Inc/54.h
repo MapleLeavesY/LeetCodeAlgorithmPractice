@@ -1,10 +1,72 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
-#include<unordered_set>
 
-#pragma region 
+#pragma region 螺旋矩阵
 
+
+enum class Dirction
+{
+    Up = 0,
+    Right,
+    Down,
+    Left
+};
+
+class Solution
+{
+public:
+    std::vector<int> spiralOrder(std::vector<std::vector<int>>& matrix)
+    {
+        int XCount = static_cast<int>(matrix[0].size());
+        int YCount = static_cast<int>(matrix.size());
+        std::vector<std::vector<bool>> _channel
+        (
+            YCount,
+            std::vector<bool>(XCount, false)
+        );
+        std::vector<int> result;
+
+        int XDir[4] = { 0, 1, 0, -1 };
+        int YDir[4] = { -1, 0, 1, 0 };
+
+        int TotalCount = XCount * YCount;
+        int X = 0;
+        int Y = 0;
+        Dirction dirction = Dirction::Right;
+        while(TotalCount)
+        {
+            TotalCount--;
+            result.push_back(matrix[Y][X]);
+
+            if(!TotalCount) break;
+            _channel[Y][X] = true;
+            int selectXDir = XDir[static_cast<int>(dirction)];
+            int selectYDir = YDir[static_cast<int>(dirction)];
+
+            int XIndex = X + selectXDir;
+            int YIndex = Y + selectYDir;
+
+            if(
+                XIndex >= XCount || XIndex < 0 ||
+                YIndex >= YCount || YIndex < 0 ||
+                _channel[YIndex][XIndex]
+            )
+            {
+                dirction = static_cast<Dirction>
+                (
+                    (static_cast<int>(dirction) + 1) % 4
+                );
+            }
+            X += XDir[static_cast<int>(dirction)];
+            Y += YDir[static_cast<int>(dirction)];
+        }
+        return result;
+    }
+};
+
+
+/* 
 
 enum class Direction
 {
@@ -87,6 +149,8 @@ public:
         return result;
     }
 };
+
+*/
 /*
 enum class Dirction
 {
