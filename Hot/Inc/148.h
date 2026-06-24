@@ -12,7 +12,7 @@ struct ListNode
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-//暴力解法-操作数组 空间复杂度O(n)
+//暴力解法--操作数组--空间复杂度O(n)
 class Solution
 {
 public:
@@ -40,6 +40,54 @@ public:
             current = next;
         }
         return result;
+    }
+};
+
+// 排序链表--排序(归并算法)--空间复杂度O(logn)
+class Solution
+{
+public:
+    ListNode* sortList(ListNode* head)
+    {
+        if(head == nullptr || head->next == nullptr) return head;
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+        while(fast != nullptr && fast->next != nullptr)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        ListNode* rightHead = slow->next;
+        slow->next = nullptr;
+
+        ListNode* left = sortList(head);
+        ListNode* right = sortList(rightHead);
+
+        return N_Sort(left, right);
+    }
+    ListNode* N_Sort(ListNode* left, ListNode* right)
+    {   
+        ListNode result(0);
+        ListNode* current = &result;
+
+        while(left != nullptr && right != nullptr)
+        {
+            if(left->val < right->val)
+            {//第一链表值小于第二链表值
+                current->next = left;
+                left = left->next;
+            }
+            else
+            {//第一链表值大于或等于第二链表值
+                current->next = right;
+                right = right->next;
+            }
+            current = current->next;
+        }
+        if(left == nullptr) { current->next = right; }
+        else { current->next = left; }
+        return result.next;
     }
 };
 #pragma endregion
