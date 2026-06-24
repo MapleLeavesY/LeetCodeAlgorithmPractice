@@ -12,7 +12,7 @@ struct ListNode
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-//暴力解法--操作数组--空间复杂度O(n)
+//排序链表--操作数组--空间复杂度O(n)
 class Solution
 {
 public:
@@ -88,6 +88,15 @@ public:
         if(left == nullptr) { current->next = right; }
         else { current->next = left; }
         return result.next;
+    }
+};
+
+class Solution
+{
+public:
+    ListNode* sortList(ListNode* head)
+    {
+        
     }
 };
 #pragma endregion
