@@ -4,33 +4,16 @@ class Solution {
 public:
     bool canJump(std::vector<int>& nums) 
     {
-        bool result{false};
+        int maxSelect = 0;
         int size = nums.size();
-        JumpTryMax(nums, 0, size, result);
-
-        return result;
-    }
-private:
-    void JumpTryMax
-    (
-        std::vector<int>& nums,
-        int select,
-        int size,
-        bool& result
-    )
-    {
-        if(result == true) return;
-        if(select >= size) return;
-        if(select == size - 1)
+        
+        for(int i = 0; i < size; i++)
         {
-            result = true;
-            return;
+            int num = nums[i];
+            if(i > maxSelect) break;
+            maxSelect = std::max(maxSelect, i + num);
         }
-        int canJumpDistance = nums[select];
 
-        for(int i = canJumpDistance; i > 0; i--)
-        {
-            JumpTryMax(nums, select + i, size, result);
-        }
+        return maxSelect >= size - 1 ? true : false;
     }
 };
