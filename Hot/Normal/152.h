@@ -1,25 +1,23 @@
 #include <vector>
 
-
 class Solution {
 public:
     int maxProduct(std::vector<int>& nums) 
     {
         int size = nums.size();
-        std::vector<int> dp(size);
-        int result = nums[0];
-
-        dp[0] = nums[0];
+        int currentMin{ nums[0] };
+        int currentMax{ nums[0] };
+        int result { nums[0] };
         for(int i = 1; i < size; i++)
-        {
-            for(int j = 0; j < i; j++)
-            {
-                dp[i] = std::max(nums[i], dp[i - 1] * nums[i]);
+        {   
+            int lastMax = currentMax;
+            int lastMin = currentMin;
 
-                if(nums[j] >= 0 || dp[i] >= 0) continue;
-
-                 
-            }
+            currentMin = std::min(nums[i], lastMax * nums[i]);
+            currentMin = std::min(currentMin, lastMin * nums[i]);
+            currentMax = std::max(nums[i], lastMax * nums[i]);
+            currentMax = std::max(currentMax, lastMin * nums[i]);
+            result = std::max(result, currentMax);
         }
         return result;
     }
