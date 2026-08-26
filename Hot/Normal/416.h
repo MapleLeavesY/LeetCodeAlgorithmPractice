@@ -1,5 +1,5 @@
 #include <vector>
-
+#include <unordered_map>
 #pragma region dpAI解法
 class Solution {
 public:
@@ -24,5 +24,34 @@ public:
         return dp[target];
     }
 };
+#pragma endregion
+
+#pragma region 
+class Solution {
+public:
+    bool canPartition(std::vector<int>& nums) 
+    {
+        std::unordered_map<int, bool> dp;
+        int sum = 0;
+        for(auto num : nums)
+        {
+            sum += num;
+        }
+
+        if(sum % 2 != 0) return false;
+        int together = sum / 2;
+        dp[0] = true;
+        for(auto num : nums)
+        {
+            for(int i = together; i >= num; i--)
+            {
+                dp[i] = dp[i] || dp[i - num];
+            }
+        }
+
+        return dp[together];
+    }
+};
+
 
 #pragma endregion
